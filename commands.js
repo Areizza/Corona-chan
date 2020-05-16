@@ -15,7 +15,7 @@ module.exports = {
             message.reply("You need at least " + minPlayers + " to begin the game. There are currently " + players.length + " players.");
             return;
         }
-        pZero = guild.members.get(players[(Math.random() * players.length)]);
+        pZero = guild.members.fetch(players[(Math.random() * players.length)]);
         roles.removeRole(pZero, HEALTHY);
         roles.setRole(pZero, INFECTED);
         message.channel.send("Patient 0 has been infected.");
