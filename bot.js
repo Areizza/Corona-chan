@@ -19,6 +19,7 @@ bot.on('ready', () => {
     logger.info('Connected');
     logger.info('Logged in as: ');
     logger.info(bot.user.tag);
+
 });
 
 bot.on('message', (message) => {
@@ -26,12 +27,26 @@ bot.on('message', (message) => {
         return;
     }
 
+    let guild  = message.guild;
+    guild.roles.fetch().then(forAll(role))
+
     if (message.content === '!join') {
         message.member.roles.add('711247579815477279');
     }
 
     if (message.content === '!quit') {
         message.member.roles.remove('711247579815477279');
+    }
+
+    if (message.content === '!start') {
+        let players = guild.roles.get('415665311828803584').members.map(m => m.user.id);
+        if (players.size > 6) {
+            p_zero = guild.members.get(players[(Math.random() * players.size) + 1]);
+            p_zero
+        }
+    }
+    if (message.content === '!end') {
+
     }
 
 });
