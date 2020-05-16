@@ -1,4 +1,7 @@
-# HackTheEarth2020
+# Corona-chan
+Discord survival pandemic game with a cute bot!
+
+![Corona-chan](https://cdn.discordapp.com/attachments/710957737420390440/711365566878711858/corona-chan_S.png)
 
 ## Quick Start
 
