@@ -19,7 +19,6 @@ module.exports = {
         roles.removeRole(pZero, HEALTHY);
         roles.setRole(pZero, INFECTED);
         message.channel.send("Patient 0 has been infected.");
-        console.log("commands.start()");
     },
     
     end: function(bot, message) {
@@ -34,7 +33,6 @@ module.exports = {
             "color": 0xFFFF
         });
         message.channel.send({embed});
-        console.log("commands.end()");
     },
 
     join: function(bot, message) {
@@ -47,6 +45,5 @@ module.exports = {
         }
         roles.setRole(message.member, roles.HEALTHY);
         message.reply("You have joined the game")
-        console.log("commands.join()");
     }
 }
