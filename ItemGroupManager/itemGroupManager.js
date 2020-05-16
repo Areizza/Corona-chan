@@ -1,4 +1,5 @@
 var itemGroup = require('./itemGroup.js')
+var roles = require('../roles.js')
 
 // Singleton class managing all items in the game
 class ItemGroupManager {
@@ -6,6 +7,23 @@ class ItemGroupManager {
         // key = userID
         // value = ItemGroup
         this.itemGroups = {};
+    }
+    
+    assignQuantity(itemName) {
+        //random assign items with random quantity
+        //maximum quantities for each item retrieved from items.js
+
+        let playerTotal = roles.playerCount.length;
+        let percent = playerTotal * 0.2;
+
+        if (itemName == "ventilator") {
+            quantity = Math.floor(Math.random() * Math.floor(percent));
+        }
+        else {
+            quantity = Math.floor(Math.random() * Math.floor(playerTotal));
+        }
+    
+        return quantity
     }
 
     addItemGroup(userID, itemGroup) {
