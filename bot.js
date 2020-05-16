@@ -19,7 +19,6 @@ bot.on('ready', () => {
     logger.info('Connected');
     logger.info('Logged in as: ');
     logger.info(bot.user.tag);
-
 });
 
 bot.on('message', (message) => {
@@ -52,9 +51,9 @@ bot.on('message', (message) => {
                 commands.join(bot, message);
                 break;
         }
+    } else {
+        infection.handleRisk(bot, message);
     }
-    
-    infection.handleRisk(bot, message);
 });
 
 bot.login(auth.token);

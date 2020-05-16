@@ -17,7 +17,6 @@ module.exports = {
     
     getRoleID: function (guild, role) {
         res = guild.roles.cache.find(r => r.name === role);
-        console.log(res);
         return res.id;
     },
 }
