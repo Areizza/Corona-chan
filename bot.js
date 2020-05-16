@@ -22,9 +22,10 @@ bot.on('ready', () => {
 });
 
 bot.on('message', (message) => {
-    /* Previous code:
-    message.reply("Why thanks for taking the time to chat!");
-    */
+    /* Previous code:*/
+    if (!message.author.bot) {
+        message.reply("author: " + message.author + " content: " + message.content);
+    }
 
     // New Wiki Code
     if (message.author.id === '1750') {
