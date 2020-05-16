@@ -3,6 +3,7 @@ var Discord = require('discord.js');
 var logger = require('winston');
 var auth = require('./auth.json');
 var commands = require('./commands');
+var infection = require('./infection');
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -50,9 +51,9 @@ bot.on('message', (message) => {
                 commands.join(bot, message);
                 break;
         }
+    } else {
+        infection.handleRisk(bot, message);
     }
-    // TODO:
-    // Game logic
 });
 
 bot.login(auth.token);
