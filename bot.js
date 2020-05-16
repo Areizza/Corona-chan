@@ -20,8 +20,11 @@ bot.on('ready', () => {
     logger.info(bot.user.tag);
 });
 
+// Array of users who joined
+var joinedUsers = [];
+
 bot.on('message', (message) => {
-    
+
     if (message.author.bot) {
         return
     }
@@ -33,21 +36,33 @@ bot.on('message', (message) => {
     
         if (!args.length) {
             logger.warn("No command passed to ${bot.username}")
+            message.reply("Did you need something?")
             return
         }
         const command = args.shift().toLowerCase();
-        message.reply(`Command name: ${command}\nArguments: ${args}`);
+        //message.reply(`Command name: ${command}\nArguments: ${args}`);
 
         // args unused
         switch (command) {
             case commands.START:
-                commands.start(bot, message)
+                commands.start(bot, message);
+                if (joinedUsers.length >= 6) {
+                    message.reply("there are " + joinedUsers.length + " player(s). Game can now begin.");
+                }
+                else {
+                    message.reply("there are " + joinedUsers.length + " player(s). insufficient players.");
+                }
                 break;
             case commands.END:
                 commands.end(bot, message);
+                message.reply("These were the players: " + joinedUsers);
+                //clear array of players
+                joinedUsers = [];
                 break;
             case commands.JOIN:
                 commands.join(bot, message);
+                joinedUsers.push(message.member.user);
+                message.reply("JOINED USERS: " + joinedUsers);
                 break;
         }
     }
