@@ -1,23 +1,27 @@
 var roles = require('./roles.js')
 
 module.exports = {
+
+    // Handle of the possibility of the message author being infected
     handleRisk: function(bot, message) {
-        // TODO:
-        return; 
         const member = message.member;
 
         if (roles.memberHasRole(member, roles.HEALTHY)) {
             console.log(member.user.tag + " is " + roles.HEALTHY)
-            roles.setRole(member, roles.INFECTED);
-            // verify
-            return;
-        } else if (roles.memberHasRole(member, roles.INFECTED)) {
-            // Calculate probability
-            // Set infected role
+            const infectionRate = calculateInfectionRate(1, {})
+            if (Math.random() < infectionRate) {
+                roles.setRole(member, roles.INFECTED);
+            }
         }
-        console.log(message.member.user.tag + " is not " + roles.HEALTHY)
     }
 }
 
+function calculateInfectionRate(numberInfected, items) {
+    // TODO: Add items
+    if (numberInfected == 0) {
+        return 0
+    }
+    return 0.5 * Math.pow(1.1, numberInfected);
+}
 
 
