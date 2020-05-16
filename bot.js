@@ -31,21 +31,23 @@ bot.on('message', (message) => {
         const args = message.content.split(/\s+/);
         args.shift();       // remove mention
     
+        if (!args.length) {
+            logger.warn("No command passed to ${bot.username}")
+            return
+        }
         const command = args.shift().toLowerCase();
         message.reply(`Command name: ${command}\nArguments: ${args}`);
 
         // args unused
-        console.log(command);
-        console.log(commands.START);
         switch (command) {
             case commands.START:
-                commands.start()
+                commands.start(bot, message)
                 break;
             case commands.END:
-                commands.end();
+                commands.end(bot, message);
                 break;
             case commands.JOIN:
-                commands.join();
+                commands.join(bot, message);
                 break;
         }
     }
