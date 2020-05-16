@@ -1,5 +1,5 @@
 var roles = require('./roles.js')
-const minPlayers = 6
+const minPlayers = 1
 
 module.exports = {
     // Commands
@@ -15,9 +15,9 @@ module.exports = {
             message.reply("You need at least " + minPlayers + " to begin the game. There are currently " + players.length + " players.");
             return;
         }
-        pZero = guild.members.fetch(players[(Math.random() * players.length)]);
-        roles.removeRole(pZero, HEALTHY);
-        roles.setRole(pZero, INFECTED);
+        pZero = message.guild.roles.cache.get(roles.getRoleID(message.guild, roles.HEALTHY)).members.random();
+        roles.removeRole(pZero, roles.HEALTHY);
+        roles.setRole(pZero, roles.INFECTED);
         message.channel.send("Patient 0 has been infected.");
     },
     
@@ -27,12 +27,13 @@ module.exports = {
         infectedCount = roles.playerCount(message.guild, roles.INFECTED).length;
         deadCount = roles.playerCount(message.guild, roles.DEAD).length;
         recoveredCount = roles.playerCount(message.guild, roles.RECOVERED).length;
-        let embed = new bot.RichEmbed({
-            "title": 'Final Counts',
-            "description": "Healthy: " + healthyCount + "\n" + "Infected: " + infectedCount + "\n" + "Dead: " + deadCount + "\n" + "Recovered: " + recoveredCount,
-            "color": 0xFFFF
-        });
-        message.channel.send({embed});
+        
+        message.channel.send('Final Counts\n' + "Healthy: " + healthyCount + "\n" + "Infected: " + infectedCount + "\n" + "Dead: " + deadCount + "\n" + "Recovered: " + recoveredCount);
+
+        message.guild.roles.cache.get(roles.getRoleID(message.guild, roles.HEALTHY)).members.forEach(mem => roles.removeRole(mem, roles.HEALTHY));
+        message.guild.roles.cache.get(roles.getRoleID(message.guild, roles.INFECTED)).members.forEach(mem => roles.removeRole(mem, roles.INFECTED));
+        message.guild.roles.cache.get(roles.getRoleID(message.guild, roles.DEAD)).members.forEach(mem => roles.removeRole(mem, roles.DEAD));
+        message.guild.roles.cache.get(roles.getRoleID(message.guild, roles.RECOVERED)).members.forEach(mem => roles.removeRole(mem, roles.RECOVERED));
     },
 
     join: function(bot, message) {

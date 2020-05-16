@@ -12,7 +12,7 @@ module.exports = {
     },
 
     playerCount: function (guild, role) {
-        players = guild.roles.fetch(module.exports.getRoleID(guild, role)).members.map(mem => mem.user.id);
+        players = guild.roles.cache.get(module.exports.getRoleID(guild, role)).members.map(mem => mem.user.id);
         return players;
     },
     
