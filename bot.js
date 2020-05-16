@@ -2,7 +2,7 @@
 var Discord = require('discord.js');
 var logger = require('winston');
 var auth = require('./auth.json');
-var wiki = require('wikiquote');
+var commands = require('./commands');
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -12,8 +12,7 @@ logger.add(new logger.transports.Console, {
 logger.level = 'debug';
 
 // Initialize Discord Bot
-var bot = new Discord.Client({
-});
+var bot = new Discord.Client({});
 
 bot.on('ready', () => {
     logger.info('Connected');
@@ -22,17 +21,38 @@ bot.on('ready', () => {
 });
 
 bot.on('message', (message) => {
-    /* Previous code:*/
-    if (!message.author.bot) {
-        message.reply("author: " + message.author + " content: " + message.content);
+    
+    if (message.author.bot) {
+        return
     }
+    
+    if (message.mentions.has(bot.user)) {
+        // Split message on spaces and extract command
+        const args = message.content.split(/\s+/);
+        args.shift();       // remove mention
+    
+        if (!args.length) {
+            logger.warn("No command passed to ${bot.username}")
+            return
+        }
+        const command = args.shift().toLowerCase();
+        message.reply(`Command name: ${command}\nArguments: ${args}`);
 
-    // New Wiki Code
-    if (message.author.id === '1750') {
-        wiki.search('Climate')
-            .then(pages => wiki.getRandomQuote(pages[Math.floor(Math.random() * pages.length)].title))
-            .then(quote => message.reply(quote));
+        // args unused
+        switch (command) {
+            case commands.START:
+                commands.start(bot, message)
+                break;
+            case commands.END:
+                commands.end(bot, message);
+                break;
+            case commands.JOIN:
+                commands.join(bot, message);
+                break;
+        }
     }
+    // TODO:
+    // Game logic
 });
 
 bot.login(auth.token);
