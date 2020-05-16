@@ -22,16 +22,18 @@ bot.on('ready', () => {
 });
 
 bot.on('message', (message) => {
-    /* Previous code:
-    message.reply("Why thanks for taking the time to chat!");
-    */
-
-    // New Wiki Code
-    if (message.author.id === '1750') {
-        wiki.search('Climate')
-            .then(pages => wiki.getRandomQuote(pages[Math.floor(Math.random() * pages.length)].title))
-            .then(quote => message.reply(quote));
+    if (message.author == bot.user) {
+        return;
     }
+
+    if (message.content === '!join') {
+        message.member.roles.add('711247579815477279');
+    }
+
+    if (message.content === '!quit') {
+        message.member.roles.remove('711247579815477279');
+    }
+
 });
 
 bot.login(auth.token);
