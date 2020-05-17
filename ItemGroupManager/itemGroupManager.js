@@ -7,8 +7,6 @@ class ItemGroupManager {
         // key = userID
         // value = ItemGroup
         this.itemGroups = {};
-        // this.itemGroups = [];
-
         this.itemList = []; 
     }
 
@@ -23,13 +21,6 @@ class ItemGroupManager {
             })
         }
 
-        //// replaced with addUser() at join time
-        //generate some item groups (inventories) and put them into ItemGroups array
-        // for (let i = 0; i <= this.itemGroups.length; i++) {
-        //     let inventory = new itemGroup();
-        //     this.itemGroups.push(inventory);            
-        // }
-
         //calculate the item maximums to integer values based on playerTotal
         //distribute each item (and update maximum -= 1) to a random player
         for (let item in this.itemList) {
@@ -42,10 +33,6 @@ class ItemGroupManager {
             }
 
             for (let j = 0; j < maximum; j++) {
-                //get random index for itemGroups to add an item to
-                // let index = Math.floor(Math.random() * this.itemGroups.length);
-                // this.itemGroups[index].inventory[name] += 1;
-
                 // Pick random user
                 var keys = Object.keys(this.itemGroups);
                 let index = Math.floor(Math.random() * keys.length);

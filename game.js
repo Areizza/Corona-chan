@@ -5,15 +5,10 @@ var Discord = require('discord.js');
 module.exports = {
     started: false,
     DEATHTRIGGER: 1.00,
-    // inventories: {},
 
     // Starts the game by setting a random player as Infected
     start: function(bot, guild, channel) {
         itemGroupManager.igm.initialize();
-        // players = guild.roles.cache.get(roles.getRoleID(guild, roles.HEALTHY)).members.map(mem => mem.user.id);
-        //channel.send("AAAAAA: " + JSON.stringify(players));
-        // this.inventories = this.distributeInventories(players, igm.itemGroups);
-        // channel.send(JSON.stringify(this.inventories));
         pZero = guild.roles.cache.get(roles.getRoleID(guild, roles.HEALTHY)).members.random();
         roles.removeRole(pZero, roles.HEALTHY);
         roles.setRole(pZero, roles.INFECTED);
@@ -31,21 +26,6 @@ module.exports = {
         guild.roles.cache.get(roles.getRoleID(guild, roles.RECOVERED)).members.forEach(mem => roles.removeRole(mem, roles.RECOVERED));
         this.started = false;
     },
-
-    // distributeInventories: function(players, itemGroups) {
-    //     console.log(players)
-    //     let inventories = {};
-
-    //     for (let i = 0; i < players.length; i++) {
-    //         if (!(players[i] in inventories)) {
-    //             inventories[players[i]] = itemGroups[i];
-    //         } else {
-    //             console.log(`WARNING: ${players[i]} is already a key in ItemGroupManager`)
-    //         }
-    //     }
-    //     console.log(inventories);
-    //     return inventories;
-    // },
 
     // Determines if the game has been won or lost
     checkGameStatus: function(bot, guild) {
