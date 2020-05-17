@@ -7,50 +7,65 @@ class ItemGroupManager {
     constructor() {
         // key = userID
         // value = ItemGroup
-        this.itemGroups = {};
-        this.playerTotal = roles.playerCount;
+        this.itemGroups = [];
+        this.playerTotal = roles.playerCount();
         this.itemList = []
+        this.inventories = {};
 
         for (let item in items) {
             this.itemList.push({
-                "name": item.name,
-                "infection": item.infection_rate,
-                "spread": item.spread_rate,
-                "death": item.death_rate,
-                "max": item.maximum_quantity
+                "name": items[item].name,
+                "infection": items[item].infection_rate,
+                "spread": items[item].spread_rate,
+                "death": items[item].death_rate,
+                "max": items[item].maximum_quantity
             })
         }
 
         //generate some item groups (inventories) and put them into ItemGroups array
         for (let i = 0; i < this.playerTotal.length; i++) {
             let inventory = new itemGroup();
-            //modify values in itemGroup to assign random quantities of items
-            for (let item in inventory) {
-                item = this.assignQuantity(item);
+            this.itemGroups.push(inventory);            
+        }
+
+        //console.log(this.itemGroups);
+        //itemGroups now has a bunch of empty inventories
+
+        //calculate the item maximums to integer values based on playerTotal
+        //distribute each item (and update maximum -= 1) to a random player
+        for (let item in this.itemList) {
+            //initialize
+            let name = this.itemList[item].name;
+            let maximum = 0;
+
+            if (this.playerTotal.length > 0) {
+                maximum = Math.floor(this.playerTotal.length * this.itemList[item].max);
             }
-            //add inventory to itemGroup
-            this.addItemGroup(this.playerTotal[i],inventory);
+
+            for (let j = 0; j < maximum; j++) {
+                //get random index for itemGroups to add an item to
+                let index = Math.floor(Math.random() * this.playerTotal.length);
+                this.itemGroups[index].inventory[name] += 1;
+            }  
         }
 
-        console.log(this.itemGroups)
-    }
+        //console.log("new item groups: " + JSON.stringify(this.itemGroups));
+        //assign these itemGroups to people
+        for (let i = 0; i < this.playerTotal.length; i++) {
 
-    //random assign items with random quantity 
-    assignQuantity(itemName) {
-        //maximum quantities for each item retrieved from items.js?????
-        let foundItem = this.itemList.find(item => item.name==itemName);
-        let quantity = 0;
-
-        if(this.itemList.find(item => item.name==itemName)){
-            let percent = this.playerTotal.length * foundItem.maximum_quantity; //multiply by the maximum_quantity modifier
-            quantity = Math.floor(Math.random() * Math.floor(percent)); 
+            //this is supposed to get the player user name somehow?????
+            
+            //this.addItemGroup(this.playerTotal[i], this.itemGroups[i])
         }
-        return quantity
+
+        //console.log(this.inventories);
+
+        //console.log(this.itemList)
     }
 
     addItemGroup(userID, itemGroup) {
-        if (!userID in this.itemGroups && !undefined) {
-            this.itemGroups[userID] = itemGroup;
+        if (!(userID in this.inventories)) {
+            this.inventories[userID] = itemGroup;
         } else {
             console.log(`WARNING: ${userID} is already a key in ItemGroupManager`)
         }
