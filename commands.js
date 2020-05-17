@@ -1,7 +1,7 @@
 var roles = require('./roles.js');
-var Discord = require('discord.js');
+var game = require('./game.js')
+
 const minPlayers = 1;
-var started = false;
 
 module.exports = {
     // Commands
@@ -9,6 +9,7 @@ module.exports = {
     END: "end",
     JOIN: "join",
     DEBUG: "debug",
+    CLEAR: "clear",
 
     // Command handlers
     start: function(bot, message) {
@@ -18,36 +19,17 @@ module.exports = {
             message.reply("You need at least " + minPlayers + " to begin the game. There are currently " + players.length + " players.");
             return;
         }
-        pZero = message.guild.roles.cache.get(roles.getRoleID(message.guild, roles.HEALTHY)).members.random();
-        roles.removeRole(pZero, roles.HEALTHY);
-        roles.setRole(pZero, roles.INFECTED);
-        message.channel.send("Patient 0 has been infected.");
-        started = true;
+        game.start(bot, message.guild, message.channel);
     },
     
     end: function(bot, message) {
         // Stops the game and output statistics
-        if (!started) {
+        if (!game.started) {
             message.reply("The game has not been started.");
             return;
         }
-
-        healthyCount = roles.playerCount(message.guild, roles.HEALTHY).length;
-        infectedCount = roles.playerCount(message.guild, roles.INFECTED).length;
-        deadCount = roles.playerCount(message.guild, roles.DEAD).length;
-        recoveredCount = roles.playerCount(message.guild, roles.RECOVERED).length;
-
-        var statsEmbed = new Discord.MessageEmbed()
-            .setTitle('Final Counts')
-            .setDescription("Healthy: " + healthyCount + "\n" + "Infected: " + infectedCount + "\n" + "Dead: " + deadCount + "\n" + "Recovered: " + recoveredCount)
-            .setColor('#0099ff');
-        message.channel.send(embed);
-        
-        message.guild.roles.cache.get(roles.getRoleID(message.guild, roles.HEALTHY)).members.forEach(mem => roles.removeRole(mem, roles.HEALTHY));
-        message.guild.roles.cache.get(roles.getRoleID(message.guild, roles.INFECTED)).members.forEach(mem => roles.removeRole(mem, roles.INFECTED));
-        message.guild.roles.cache.get(roles.getRoleID(message.guild, roles.DEAD)).members.forEach(mem => roles.removeRole(mem, roles.DEAD));
-        message.guild.roles.cache.get(roles.getRoleID(message.guild, roles.RECOVERED)).members.forEach(mem => roles.removeRole(mem, roles.RECOVERED));
-        started = false;
+        message.reply("You have ended the game")
+        game.end(bot, message.guild, message.channel);
     },
 
     join: function(bot, message) {
@@ -63,27 +45,10 @@ module.exports = {
     },
 
     debug: function(bot, message) {
-        healthyUsers = roles.debugPlayers(message.guild, roles.HEALTHY);
-        infectedUsers = roles.debugPlayers(message.guild, roles.INFECTED);
-        deadUsers = roles.debugPlayers(message.guild, roles.DEAD);
-        recoveredUsers = roles.debugPlayers(message.guild, roles.RECOVERED);
-        
-        var debugEmbed = new Discord.MessageEmbed()
-            .setTitle('Users per role')
-            .addFields(
-                {name: 'Healthy', value: module.exports.checkUsers(healthyUsers)},
-                {name: 'Infected', value: module.exports.checkUsers(infectedUsers)},
-                {name: 'Dead', value: module.exports.checkUsers(deadUsers)},
-                {name: 'Recovered', value: module.exports.checkUsers(recoveredUsers)}
-            )
-            .setColor('#0099ff');
-        message.channel.send(debugEmbed);
+        game.outputStatistics(bot, message.guild, message.channel);
     },
 
-    checkUsers: function(users) {
-        if (!users.length) {
-            return "N/A";
-        }
-        return users.toString();
+    clear: function(bot, message) {
+        this.end(bot, message);
     }
 }

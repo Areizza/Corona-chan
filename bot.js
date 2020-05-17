@@ -5,6 +5,7 @@ var auth = require('./auth.json');
 var commands = require('./commands');
 var infection = require('./infection');
 var roles = require('./roles');
+var game = require('./game')
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -53,8 +54,19 @@ bot.on('message', (message) => {
             case commands.DEBUG:
                 commands.debug(bot, message);
                 break;
+            case commands.CLEAR:
+                commands.clear(bot,message);
+                break;
+            
+            // DEBUG
+            case "_win":
+                game.win(bot, message.guild);
+                break;
+            case "_lose":
+                game.lose(bot, message.guild);
+                break;
         }
-    } else {
+    } else if (game.started) {
         infection.handleRisk(bot, message);
     }
 });
