@@ -1,5 +1,6 @@
-var roles = require('./roles.js')
-const minPlayers = 1
+var roles = require('./roles.js');
+var Discord = require('discord.js');
+const minPlayers = 1;
 
 module.exports = {
     // Commands
@@ -27,9 +28,13 @@ module.exports = {
         infectedCount = roles.playerCount(message.guild, roles.INFECTED).length;
         deadCount = roles.playerCount(message.guild, roles.DEAD).length;
         recoveredCount = roles.playerCount(message.guild, roles.RECOVERED).length;
-        
-        message.channel.send('Final Counts\n' + "Healthy: " + healthyCount + "\n" + "Infected: " + infectedCount + "\n" + "Dead: " + deadCount + "\n" + "Recovered: " + recoveredCount);
 
+        const embed = new Discord.MessageEmbed()
+            .setTitle('Final Counts')
+            .setDescription("Healthy: " + healthyCount + "\n" + "Infected: " + infectedCount + "\n" + "Dead: " + deadCount + "\n" + "Recovered: " + recoveredCount)
+            .setColor('#0099ff');
+        message.channel.send(embed);
+        
         message.guild.roles.cache.get(roles.getRoleID(message.guild, roles.HEALTHY)).members.forEach(mem => roles.removeRole(mem, roles.HEALTHY));
         message.guild.roles.cache.get(roles.getRoleID(message.guild, roles.INFECTED)).members.forEach(mem => roles.removeRole(mem, roles.INFECTED));
         message.guild.roles.cache.get(roles.getRoleID(message.guild, roles.DEAD)).members.forEach(mem => roles.removeRole(mem, roles.DEAD));
