@@ -56,6 +56,15 @@ bot.on('message', (message) => {
                 break;
             case commands.CLEAR:
                 commands.clear(bot,message);
+                break;
+            
+            // DEBUG
+            case "_win":
+                game.win(bot, message.guild);
+                break;
+            case "_lose":
+                game.lose(bot, message.guild);
+                break;
         }
     } else if (game.started) {
         infection.handleRisk(bot, message);

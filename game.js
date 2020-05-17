@@ -5,25 +5,7 @@ module.exports = {
     started: false,
     DEATHTRIGGER: 1.00,
 
-    // Determines if the game has been won or lost
-    checkGameStatus: function(bot, guild) {
-        this.lose(bot,guild);
-
-        if (this.started) {
-            numHealthy = roles.playerCount(guild, roles.HEALTHY).length;
-            numInfected = roles.playerCount(guild, roles.INFECTED).length;
-            numRecovered = roles.playerCount(guild, roles.RECOVERED).length;
-            numDead = roles.playerCount(guild, roles.DEAD).length;
-            totalPlayers = numHealthy + numInfected + numRecovered + numDead;
-    
-            if (numDead > totalPlayers*this.DEATHTRIGGER) {
-                this.lose(bot, guild); 
-            } else if (roles.playerCount(guild, roles.INFECTED) == 0) {
-                this.win(bot, guild);
-            }
-        }
-    },
-
+    // Starts the game by setting a random player as Infected
     start: function(bot, guild, channel) {
         pZero = guild.roles.cache.get(roles.getRoleID(guild, roles.HEALTHY)).members.random();
         roles.removeRole(pZero, roles.HEALTHY);
@@ -33,6 +15,7 @@ module.exports = {
         this.started = true;
     },
 
+    // Ends the game, outputting statistics and clearing roles
     end: function(bot, guild, channel) {
         this.outputStatistics(bot, guild, channel)
         guild.roles.cache.get(roles.getRoleID(guild, roles.HEALTHY)).members.forEach(mem => roles.removeRole(mem, roles.HEALTHY));
@@ -42,18 +25,38 @@ module.exports = {
         this.started = false;
     },
 
+    // Determines if the game has been won or lost
+    checkGameStatus: function(bot, guild) {
+        if (this.started) {
+            numHealthy = roles.playerCount(guild, roles.HEALTHY).length;
+            numInfected = roles.playerCount(guild, roles.INFECTED).length;
+            numRecovered = roles.playerCount(guild, roles.RECOVERED).length;
+            numDead = roles.playerCount(guild, roles.DEAD).length;
+            totalPlayers = numHealthy + numInfected + numRecovered + numDead;
+    
+            if (numDead >= totalPlayers*this.DEATHTRIGGER) {
+                this.lose(bot, guild); 
+            } else if (roles.playerCount(guild, roles.INFECTED) == 0) {
+                this.win(bot, guild);
+            }
+        }
+    },
+
+    // Game is won
     win: function(bot, guild) {
         console.debug("Win triggered");
         outputToGeneral(bot, guild, "Congratulations! You have eradicated COVID-19!!");
-        this.outputStatistics(bot, getGeneral(guild));
+        this.end(bot, guild, getGeneral(guild))
     },
     
+    // Game is lost
     lose: function(bot, guild) {
-        console.debug("Lose triggered");
+        console.debug("Lost triggered");
         outputToGeneral(bot, guild, "Unfortunately, COVID-19 has ravaged the planet beyond repair, and you have lost the game :(")
         this.end(bot, guild, getGeneral(guild))
     },
 
+    // Output list of players in each role in a given channel
     outputStatistics(bot, guild, channel) {
         healthyUsers = roles.playerNamesByRole(guild, roles.HEALTHY);
         infectedUsers = roles.playerNamesByRole(guild, roles.INFECTED);
