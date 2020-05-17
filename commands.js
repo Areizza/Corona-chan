@@ -67,16 +67,23 @@ module.exports = {
         infectedUsers = roles.debugPlayers(message.guild, roles.INFECTED);
         deadUsers = roles.debugPlayers(message.guild, roles.DEAD);
         recoveredUsers = roles.debugPlayers(message.guild, roles.RECOVERED);
-
+        
         var debugEmbed = new Discord.MessageEmbed()
             .setTitle('Users per role')
             .addFields(
-                {name: 'Healthy', value: healthyUsers},
-                {name: 'Infected', value: infectedUsers},
-                {name: 'Dead', value: deadUsers},
-                {name: 'Recovered', value: recoveredUsers},
+                {name: 'Healthy', value: module.exports.checkUsers(healthyUsers)},
+                {name: 'Infected', value: module.exports.checkUsers(infectedUsers)},
+                {name: 'Dead', value: module.exports.checkUsers(deadUsers)},
+                {name: 'Recovered', value: module.exports.checkUsers(recoveredUsers)}
             )
             .setColor('#0099ff');
         message.channel.send(debugEmbed);
+    },
+
+    checkUsers: function(users) {
+        if (!users.length) {
+            return "N/A";
+        }
+        return users.toString();
     }
 }
