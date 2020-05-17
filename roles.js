@@ -3,6 +3,10 @@ module.exports = {
     INFECTED: "Infected",
     RECOVERED: "Recovered",
     DEAD: "Dead",
+    HCOLOR: "#00FF00",
+    ICOLOR: "#FFFF00",
+    DCOLOR: "#FF0000",
+    RCOLOR: "#0000FF",
 
     memberHasRole: function (member, role) {
         if(member.roles.cache.find(r => r.name === role)) {
@@ -12,7 +16,7 @@ module.exports = {
     },
 
     playerCount: function (guild, role) {
-        players = guild.roles.get(module.exports.getRoleID(guild, role)).members.map(mem => mem.user.id);
+        players = guild.roles.cache.get(module.exports.getRoleID(guild, role)).members.map(mem => mem.user.id);
         return players;
     },
     
@@ -28,4 +32,9 @@ module.exports = {
         res = guild.roles.cache.find(r => r.name === role);
         return res.id;
     },
+
+    playerNamesByRole: function (guild, role) {
+        players = guild.roles.cache.get(module.exports.getRoleID(guild, role)).members.map(mem => mem.user.username);
+        return players;
+    }
 }
