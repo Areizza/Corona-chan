@@ -51,7 +51,7 @@ bot.on('message', (message) => {
                 commands.join(bot, message);
                 break;
         }
-    } else {
+    } else {    // check game started
         infection.handleRisk(bot, message);
     }
 });
