@@ -3,6 +3,10 @@ module.exports = {
     INFECTED: "Infected",
     RECOVERED: "Recovered",
     DEAD: "Dead",
+    HCOLOR: "#00FF00",
+    ICOLOR: "#FFFF00",
+    DCOLOR: "#FF0000",
+    RCOLOR: "#0000FF",
 
     memberHasRole: function (member, role) {
         if(member.roles.cache.find(r => r.name === role)) {
@@ -27,5 +31,5 @@ module.exports = {
     getRoleID: function (guild, role) {
         res = guild.roles.cache.find(r => r.name === role);
         return res.id;
-    },
+    }
 }

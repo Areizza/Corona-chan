@@ -4,6 +4,7 @@ var logger = require('winston');
 var auth = require('./auth.json');
 var commands = require('./commands');
 var infection = require('./infection');
+var roles = require('./roles');
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -54,6 +55,16 @@ bot.on('message', (message) => {
     } else {
         infection.handleRisk(bot, message);
     }
+});
+
+bot.on('guildCreate', (guild) => {
+    let rolesData = [{name: roles.HEALTHY, color: roles.HCOLOR}, {name: roles.INFECTED, color: roles.ICOLOR}, {name: roles.DEAD, color: roles.DCOLOR}, {name: roles.RECOVERED, color: roles.RCOLOR}];
+    rolesData.forEach(role => {
+        let roleExists = guild.roles.cache.some(r => r.name === role.name);
+        if (!roleExists) {
+            guild.roles.create({data: {name: role.name, color: role.color}});
+        }
+    });
 });
 
 bot.login(auth.token);
