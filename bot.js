@@ -6,6 +6,7 @@ var commands = require('./commands');
 var infection = require('./infection');
 var roles = require('./roles');
 var game = require('./game')
+var itemGroupManager = require('./ItemGroupManager/itemGroupManager')
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
