@@ -1,5 +1,4 @@
 var itemGroup = require('./itemGroup.js')
-var roles = require('../roles.js')
 var items = require('./items.js')
 
 // Singleton class managing all items in the game
@@ -7,8 +6,9 @@ class ItemGroupManager {
     constructor() {
         // key = userID
         // value = ItemGroup
-        this.itemGroups = [];
-        this.playerTotal = roles.playerCount.length;
+        this.itemGroups = {};
+        // this.itemGroups = [];
+
         this.itemList = []; 
     }
 
@@ -23,11 +23,12 @@ class ItemGroupManager {
             })
         }
 
+        //// replaced with addUser() at join time
         //generate some item groups (inventories) and put them into ItemGroups array
-        for (let i = 0; i <= this.playerTotal; i++) {
-            let inventory = new itemGroup();
-            this.itemGroups.push(inventory);            
-        }
+        // for (let i = 0; i <= this.itemGroups.length; i++) {
+        //     let inventory = new itemGroup();
+        //     this.itemGroups.push(inventory);            
+        // }
 
         //calculate the item maximums to integer values based on playerTotal
         //distribute each item (and update maximum -= 1) to a random player
@@ -36,33 +37,38 @@ class ItemGroupManager {
             let name = this.itemList[item].name;
             let maximum = 0;
 
-            if (this.playerTotal > 0) {
-                maximum = Math.floor(this.playerTotal * this.itemList[item].max);
+            if (this.itemGroups.length > 0) {
+                maximum = Math.floor(this.itemGroups.length * this.itemList[item].max);
             }
 
             for (let j = 0; j < maximum; j++) {
                 //get random index for itemGroups to add an item to
-                let index = Math.floor(Math.random() * this.playerTotal);
-                this.itemGroups[index].inventory[name] += 1;
+                // let index = Math.floor(Math.random() * this.itemGroups.length);
+                // this.itemGroups[index].inventory[name] += 1;
+
+                // Pick random user
+                var keys = Object.keys(this.itemGroups);
+                let index = Math.floor(Math.random() * keys.length);
+                this.itemGroups[keys[index]].inventory[name] += 1;
             }  
         }
 
         console.log(this.itemGroups);
     }
 
-    addItemGroup(userID, itemGroup) {
-        if (!(userID in this.inventories)) {
-            this.inventories[userID] = itemGroup;
+    addUser(userID) {
+        if (!(userID in this.itemGroups)) {
+            this.itemGroups[userID] = new itemGroup();
         } else {
             console.log(`WARNING: ${userID} is already a key in ItemGroupManager`)
         }
     }
+
     // TODO distant future. Ignore for now
     // send(id1, id2)
     // trade(id1, id2)
-
 }
 
-const itemGroupManager = new ItemGroupManager();
-Object.freeze(itemGroupManager);
-module.exports = itemGroupManager;
+module.exports = {
+    igm: new ItemGroupManager()
+}

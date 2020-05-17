@@ -22,7 +22,6 @@ bot.on('ready', () => {
     logger.info('Connected');
     logger.info('Logged in as: ');
     logger.info(bot.user.tag);
-    igm = itemGroupManager.itemGroupManager
 });
 
 bot.on('message', (message) => {

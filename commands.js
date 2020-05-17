@@ -1,6 +1,6 @@
 var roles = require('./roles.js');
 var game = require('./game.js')
-
+var itemGroupManager = require('./ItemGroupManager/itemGroupManager')
 const minPlayers = 1;
 
 module.exports = {
@@ -40,6 +40,7 @@ module.exports = {
             message.reply("You are already part of the game.");
             return;
         }
+        itemGroupManager.igm.addUser(message.author.id);
         roles.setRole(message.member, roles.HEALTHY);
         message.reply("You have joined the game.")
     },
