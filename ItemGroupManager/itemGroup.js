@@ -18,10 +18,6 @@ module.exports = class ItemGroup { //INVENTORY owned by any single user
         this.inventory[items.ALCOHOL.name] = 0;
         this.inventory[items.TOILET.name] = 0;
         this.inventory[items.VENTILATOR.name] = 0;
-        
-        // for (let key in this.items[items]) {
-        //     this.items[key] = assignQuantity(key);
-        // }
     }
     
     addItem(itemName, quantity) {

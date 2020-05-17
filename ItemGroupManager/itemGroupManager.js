@@ -9,8 +9,10 @@ class ItemGroupManager {
         // value = ItemGroup
         this.itemGroups = [];
         this.playerTotal = roles.playerCount.length;
-        this.itemList = [];
+        this.itemList = []; 
+    }
 
+    initialize() {
         for (let item in items) {
             this.itemList.push({
                 "name": items[item].name,
@@ -22,7 +24,7 @@ class ItemGroupManager {
         }
 
         //generate some item groups (inventories) and put them into ItemGroups array
-        for (let i = 0; i < this.playerTotal; i++) {
+        for (let i = 0; i <= this.playerTotal; i++) {
             let inventory = new itemGroup();
             this.itemGroups.push(inventory);            
         }
@@ -44,6 +46,8 @@ class ItemGroupManager {
                 this.itemGroups[index].inventory[name] += 1;
             }  
         }
+
+        console.log(this.itemGroups);
     }
 
     addItemGroup(userID, itemGroup) {
