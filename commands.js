@@ -1,6 +1,7 @@
 var roles = require('./roles.js');
 var Discord = require('discord.js');
 const minPlayers = 1;
+var started = false;
 
 module.exports = {
     // Commands
@@ -20,10 +21,16 @@ module.exports = {
         roles.removeRole(pZero, roles.HEALTHY);
         roles.setRole(pZero, roles.INFECTED);
         message.channel.send("Patient 0 has been infected.");
+        started = true;
     },
     
     end: function(bot, message) {
         // Stops the game and output statistics
+        if (!started) {
+            message.reply("The game has not been started.");
+            return;
+        }
+
         healthyCount = roles.playerCount(message.guild, roles.HEALTHY).length;
         infectedCount = roles.playerCount(message.guild, roles.INFECTED).length;
         deadCount = roles.playerCount(message.guild, roles.DEAD).length;
@@ -50,6 +57,6 @@ module.exports = {
             return;
         }
         roles.setRole(message.member, roles.HEALTHY);
-        message.reply("You have joined the game")
+        message.reply("You have joined the game.")
     }
 }
