@@ -4,12 +4,8 @@ var logger = require('winston');
 var auth = require('./auth.json');
 var commands = require('./commands');
 var infection = require('./infection');
-<<<<<<< HEAD
-var itemGroupManager = require('./ItemGroupManager/itemGroupManager')
-=======
 var roles = require('./roles');
 var game = require('./game')
->>>>>>> master
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
