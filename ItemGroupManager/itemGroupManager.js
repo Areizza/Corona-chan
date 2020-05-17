@@ -9,31 +9,47 @@ class ItemGroupManager {
         // value = ItemGroup
         this.itemGroups = {};
         this.playerTotal = roles.playerCount;
-        this.itemList = new items();
+        this.itemList = []
+
+        for (let item in items) {
+            this.itemList.push({
+                "name": item.name,
+                "infection": item.infection_rate,
+                "spread": item.spread_rate,
+                "death": item.death_rate,
+                "max": item.maximum_quantity
+            })
+        }
 
         //generate some item groups (inventories) and put them into ItemGroups array
         for (let i = 0; i < this.playerTotal.length; i++) {
             let inventory = new itemGroup();
             //modify values in itemGroup to assign random quantities of items
             for (let item in inventory) {
-                item = assignQuantity(item);
+                item = this.assignQuantity(item);
             }
             //add inventory to itemGroup
-            this.addItemGroup(playerTotal[i],inventory);
+            this.addItemGroup(this.playerTotal[i],inventory);
         }
+
+        console.log(this.itemGroups)
     }
 
     //random assign items with random quantity 
     assignQuantity(itemName) {
         //maximum quantities for each item retrieved from items.js?????
-        let percent = this.playerTotal.length * this.itemList.find(item.name==itemName).maximum_quantity; //multiply by the maximum_quantity modifier
+        let foundItem = this.itemList.find(item => item.name==itemName);
+        let quantity = 0;
 
-        quantity = Math.floor(Math.random() * Math.floor(percent)); 
+        if(this.itemList.find(item => item.name==itemName)){
+            let percent = this.playerTotal.length * foundItem.maximum_quantity; //multiply by the maximum_quantity modifier
+            quantity = Math.floor(Math.random() * Math.floor(percent)); 
+        }
         return quantity
     }
 
     addItemGroup(userID, itemGroup) {
-        if (!userID in this.itemGroups) {
+        if (!userID in this.itemGroups && !undefined) {
             this.itemGroups[userID] = itemGroup;
         } else {
             console.log(`WARNING: ${userID} is already a key in ItemGroupManager`)
