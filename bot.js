@@ -36,7 +36,8 @@ bot.on('message', (message) => {
         args.shift();       // remove mention
     
         if (!args.length) {
-            logger.warn("${bot.username} doesn't understand!")
+            logger.warn("No command passed to ${bot.username}")
+            message.reply("Did you need something?")
             return
         }
         const command = args.shift().toLowerCase();

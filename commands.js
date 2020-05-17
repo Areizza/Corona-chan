@@ -16,7 +16,7 @@ module.exports = {
         // Starts the game by infecting one random person
         players = roles.playerCount(message.guild, roles.HEALTHY);
         if (players.length < minPlayers) {
-            message.reply("You need at least " + minPlayers + " to begin the game. There are currently " + players.length + " players.");
+            message.reply("Boo hoo, Corona-chan is waiting for at least " + minPlayers + " to start the game! There are currently only " + players.length + ".");
             return;
         }
         game.start(bot, message.guild, message.channel);
@@ -25,10 +25,10 @@ module.exports = {
     end: function(bot, message) {
         // Stops the game and output statistics
         if (!game.started) {
-            message.reply("The game has not been started.");
+            message.reply("Corona-chan isn't ready for her grand debut yet, baka!");
             return;
         }
-        message.reply("You have ended the game")
+        message.reply("Aww... Corona-chan will always wait for you.")
         game.end(bot, message.guild, message.channel);
     },
 
@@ -37,12 +37,12 @@ module.exports = {
         // If a game is already in place, you will be uninfected
         // If a game in not in place and a game starts, you could be patient zero
         if (roles.memberHasRole(message.member, roles.HEALTHY)||roles.memberHasRole(message.member, roles.INFECTED)||roles.memberHasRole(message.member, roles.DEAD)||roles.memberHasRole(message.member, roles.RECOVERED)) {
-            message.reply("You are already part of the game.");
+            message.reply("Corona-chan already received your RSVP!");
             return;
         }
         itemGroupManager.igm.addUser(message.author.id);
         roles.setRole(message.member, roles.HEALTHY);
-        message.reply("You have joined the game.")
+        message.reply("Thanks for joining Corona-chan's game! ♥")
     },
 
     debug: function(bot, message) {
