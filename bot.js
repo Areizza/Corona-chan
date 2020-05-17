@@ -25,7 +25,7 @@ bot.on('ready', () => {
 bot.on('message', (message) => {
     
     if (message.author.bot) {
-        return
+        return;
     }
     
     if (message.mentions.has(bot.user)) {
@@ -34,11 +34,10 @@ bot.on('message', (message) => {
         args.shift();       // remove mention
     
         if (!args.length) {
-            logger.warn("No command passed to ${bot.username}")
-            return
+            logger.warn("No command passed to ${bot.username}");
+            return;
         }
         const command = args.shift().toLowerCase();
-        message.reply(`Command name: ${command}\nArguments: ${args}`);
 
         // args unused
         switch (command) {

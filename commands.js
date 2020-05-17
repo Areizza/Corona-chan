@@ -46,6 +46,7 @@ module.exports = {
         message.guild.roles.cache.get(roles.getRoleID(message.guild, roles.INFECTED)).members.forEach(mem => roles.removeRole(mem, roles.INFECTED));
         message.guild.roles.cache.get(roles.getRoleID(message.guild, roles.DEAD)).members.forEach(mem => roles.removeRole(mem, roles.DEAD));
         message.guild.roles.cache.get(roles.getRoleID(message.guild, roles.RECOVERED)).members.forEach(mem => roles.removeRole(mem, roles.RECOVERED));
+        started = false;
     },
 
     join: function(bot, message) {
