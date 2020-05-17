@@ -27,9 +27,10 @@ class ItemGroupManager {
             //initialize
             let name = this.itemList[item].name;
             let maximum = 0;
+            let length = Object.keys(this.itemGroups).length;
 
-            if (this.itemGroups.length > 0) {
-                maximum = Math.floor(this.itemGroups.length * this.itemList[item].max);
+            if (length > 0) {
+                maximum = Math.floor(length * this.itemList[item].max);
             }
 
             for (let j = 0; j < maximum; j++) {
@@ -44,6 +45,7 @@ class ItemGroupManager {
     }
 
     addUser(userID) {
+        console.log("ADDING NEW USER");
         if (!(userID in this.itemGroups)) {
             this.itemGroups[userID] = new itemGroup();
         } else {
