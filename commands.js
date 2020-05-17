@@ -8,6 +8,7 @@ module.exports = {
     START: "start",
     END: "end",
     JOIN: "join",
+    DEBUG: "debug",
 
     // Command handlers
     start: function(bot, message) {
