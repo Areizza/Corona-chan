@@ -1,15 +1,17 @@
 module.exports = {
-    MASK: "mask",
-    N95: "N95",
-    SANITIZE: "hand_sanitizer",
-    GLOVES: "gloves",
-    DISINFECT: "disinfecting_wipes",
-    ESSENTIAL: "essential_oils",
-    VITAMINS: "vitamins",
-    REMEDY: "home_remedies",
-    ALCOHOL: "alcohol",
-    TOILET: "toilet_paper",
-    VENTILATOR: "ventilator"
+    //0 for neutral items that don't affect the rate, disregard 0 values when calculating overall average
+
+    MASK: createModifier("mask", 0.3, 0.2, 0, 0.5),
+    N95: createModifier("N95", 0.1, 0.05, 0, 0.4),
+    SANITIZE: createModifier("hand_sanitizer", 0.2, 0.2, 0, 0.6),
+    GLOVES: createModifier("gloves", 0.3, 0.3, 0, 0.7),
+    DISINFECT: createModifier("disinfecting_wipes", 0.2, 0.2, 0, 0.6),
+    ESSENTIAL: createModifier("essential_oils", 0.7, 0, 0.7, 0.7),
+    VITAMINS: createModifier("vitamins", 0.6, 0, 0.6, 0.7),
+    REMEDY: createModifier("home_remedies", 0.8, 0, 0.9, 0.6),
+    ALCOHOL: createModifier("alcohol", 0.5, 0, 0.5, 0.4),
+    TOILET: createModifier("toilet_paper", 0, 0, 0, 0.3),
+    VENTILATOR: createModifier("ventilator", 0, 0, 0.1, 0.2),
 }
 
 const itemModifiers = {
@@ -30,11 +32,12 @@ const itemModifiers = {
 }
 
 // fix arg names
-function createModifier(a,b,c,d) {
+function createModifier(a,b,c,d,e) {
     return {
-        "infection_rate": a,
-        "spread_rate": b,
-        "death_rate": c,
-        "maximum_quantity": d //maximum in game, not maximums per player
+        "name": a,
+        "infection_rate": b,
+        "spread_rate": c,
+        "death_rate": d,
+        "maximum_quantity": e //maximum in game, not maximums per player
     };
 }
