@@ -11,10 +11,8 @@ module.exports = {
     // Only healthy people have a risk of being infected
     handleRisk: function(bot, newMsg) {
         game.checkGameStatus(bot, newMsg.member.guild);
-        return;
-        
-        // TD
-        if (roles.memberHasRole(newMsg.member, roles.HEALTHY)) {
+
+        if (game.started && roles.memberHasRole(newMsg.member, roles.HEALTHY)) {
             const now = new Date().getTime();
                  
             newMsg.channel.messages.fetch({ limit: MAXMESSAGES })
@@ -43,7 +41,7 @@ module.exports = {
                         if (Math.random() < calculateInfectionRate()) {
                             roles.setRole(newMsg.member, roles.INFECTED);
                             roles.removeRole(newMsg.member, roles.HEALTHY);
-                            newMsg.reply("You have been infected!")
+                            newMsg.reply("Corona-chan has visited you, and you have become infected!");
                             recoverOrDie(bot, newMsg.member);
                         }
                     }
@@ -78,10 +76,10 @@ function recoverOrDie(bot, member) {
 
 // TODO
 function calculateInfectionRate() {
-    return 0.5;
+    return 0.1;
 }
 
 // TODO
 function calculateRecoveryRate() {
-    return 0.5;
+    return 0.0;
 }
