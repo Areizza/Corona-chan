@@ -8,6 +8,7 @@ module.exports = {
     START: "start",
     END: "end",
     JOIN: "join",
+    DEBUG: "debug",
 
     // Command handlers
     start: function(bot, message) {
@@ -36,7 +37,7 @@ module.exports = {
         deadCount = roles.playerCount(message.guild, roles.DEAD).length;
         recoveredCount = roles.playerCount(message.guild, roles.RECOVERED).length;
 
-        const embed = new Discord.MessageEmbed()
+        var statsEmbed = new Discord.MessageEmbed()
             .setTitle('Final Counts')
             .setDescription("Healthy: " + healthyCount + "\n" + "Infected: " + infectedCount + "\n" + "Dead: " + deadCount + "\n" + "Recovered: " + recoveredCount)
             .setColor('#0099ff');
@@ -59,5 +60,30 @@ module.exports = {
         }
         roles.setRole(message.member, roles.HEALTHY);
         message.reply("You have joined the game.")
+    },
+
+    debug: function(bot, message) {
+        healthyUsers = roles.debugPlayers(message.guild, roles.HEALTHY);
+        infectedUsers = roles.debugPlayers(message.guild, roles.INFECTED);
+        deadUsers = roles.debugPlayers(message.guild, roles.DEAD);
+        recoveredUsers = roles.debugPlayers(message.guild, roles.RECOVERED);
+        
+        var debugEmbed = new Discord.MessageEmbed()
+            .setTitle('Users per role')
+            .addFields(
+                {name: 'Healthy', value: module.exports.checkUsers(healthyUsers)},
+                {name: 'Infected', value: module.exports.checkUsers(infectedUsers)},
+                {name: 'Dead', value: module.exports.checkUsers(deadUsers)},
+                {name: 'Recovered', value: module.exports.checkUsers(recoveredUsers)}
+            )
+            .setColor('#0099ff');
+        message.channel.send(debugEmbed);
+    },
+
+    checkUsers: function(users) {
+        if (!users.length) {
+            return "N/A";
+        }
+        return users.toString();
     }
 }

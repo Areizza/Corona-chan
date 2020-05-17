@@ -31,5 +31,10 @@ module.exports = {
     getRoleID: function (guild, role) {
         res = guild.roles.cache.find(r => r.name === role);
         return res.id;
+    },
+
+    debugPlayers: function (guild, role) {
+        players = guild.roles.cache.get(module.exports.getRoleID(guild, role)).members.map(mem => mem.user.username);
+        return players;
     }
 }
