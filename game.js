@@ -17,7 +17,7 @@ module.exports = {
         pZero = guild.roles.cache.get(roles.getRoleID(guild, roles.HEALTHY)).members.random();
         roles.removeRole(pZero, roles.HEALTHY);
         roles.setRole(pZero, roles.INFECTED);
-        channel.send("Patient 0 has been infected.");
+        channel.send("Corona-chan is ready to play ♥ Someone has received my special gift");
         console.debug(`${pZero.displayName} selected as Patient 0`)
         this.started = true;
     },
@@ -67,14 +67,14 @@ module.exports = {
     // Game is won
     win: function(bot, guild) {
         console.debug("Win triggered");
-        outputToGeneral(bot, guild, "Congratulations! You have eradicated COVID-19!!");
+        outputToGeneral(bot, guild, "B-b-baka, Corona-chan will be back! :'c");
         this.end(bot, guild, getGeneral(guild))
     },
     
     // Game is lost
     lose: function(bot, guild) {
         console.debug("Lost triggered");
-        outputToGeneral(bot, guild, "Unfortunately, COVID-19 has ravaged the planet beyond repair, and you have lost the game :(")
+        outputToGeneral(bot, guild, "Corona-chan loves everyone equally, let's play together forever and ever ♥")
         this.end(bot, guild, getGeneral(guild))
     },
 
