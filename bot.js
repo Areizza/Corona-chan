@@ -50,6 +50,9 @@ bot.on('message', (message) => {
             case commands.JOIN:
                 commands.join(bot, message);
                 break;
+            case commands.DEBUG:
+                commands.debug(bot, message);
+                break;
         }
     } else {    // check game started
         infection.handleRisk(bot, message);
