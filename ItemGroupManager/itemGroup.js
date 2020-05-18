@@ -42,7 +42,7 @@ module.exports = class ItemGroup { //INVENTORY owned by any single user
         this.inventory[itemName] -= quantity
     }
 
-    calculateInfectionRate() { //idk
+    calculateInfectionRate() {
         return this.calculateRate("infection")
     }
 
