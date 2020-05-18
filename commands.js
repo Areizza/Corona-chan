@@ -1,6 +1,7 @@
 var roles = require('./roles.js');
-var game = require('./game.js')
-var itemGroupManager = require('./ItemGroupManager/itemGroupManager')
+var game = require('./game.js');
+var itemGroupManager = require('./ItemGroupManager/itemGroupManager');
+var Discord = require('discord.js');
 const minPlayers = 1;
 
 module.exports = {
@@ -10,6 +11,8 @@ module.exports = {
     JOIN: "join",
     DEBUG: "debug",
     CLEAR: "clear",
+    ITEMS: "items",
+    HELP: "help",
 
     // Command handlers
     start: function(bot, message) {
@@ -51,5 +54,23 @@ module.exports = {
 
     clear: function(bot, message) {
         this.end(bot, message);
+    },
+
+    items: function(bot, message) {
+        game.outputItems(bot, message.author, message.channel);
+    },
+
+    help: function(bot, message) {
+        var helpEmbed = new Discord.MessageEmbed()
+            .setTitle('Help Menu')
+            .addFields(
+                {name: 'join', value: "Participate in Corona-chan's game."},
+                {name: 'start', value: `Begin the game. Requires ${minPlayers} participants to begin.`},
+                {name: 'end', value: "Force end Corona-chan's game."},
+                {name: 'items', value: "Check the items you currently are in possesion of. Game must be in progress to use this command."},
+                {name: 'help', value: "Show this menu"}
+            )
+            .setColor('#f5336e');
+        message.channel.send(helpEmbed);
     }
 }
