@@ -1,5 +1,5 @@
 var itemGroupManager = require('./ItemGroupManager/itemGroupManager')
-const INFECTIONPERIOD = 10 * 1000; // milliseconds
+var config = require('./config')
 
 module.exports = {
     HEALTHY: "Healthy",
@@ -61,6 +61,6 @@ module.exports = {
                 }
                 this.removeRole(member, this.INFECTED);
             }
-        }, INFECTIONPERIOD);
+        }, config.INFECTION_PERIOD);
     }
 }

@@ -1,10 +1,10 @@
 var roles = require('./roles')
 var itemGroupManager = require('./ItemGroupManager/itemGroupManager')
 var Discord = require('discord.js');
+var config = require('./config')
 
 module.exports = {
     started: false,
-    DEATHTRIGGER: 0.5,
 
     // Starts the game by setting a random player as Infected
     start: function(bot, guild, channel) {
@@ -40,7 +40,7 @@ module.exports = {
             numDead = roles.playerCount(guild, roles.DEAD).length;
             totalPlayers = numHealthy + numInfected + numRecovered + numDead;
     
-            if (numDead >= totalPlayers*this.DEATHTRIGGER) {
+            if (numDead >= totalPlayers*config.DEATHTRIGGER) {
                 this.lose(bot, guild); 
             } else if (roles.playerCount(guild, roles.INFECTED) == 0) {
                 this.win(bot, guild);

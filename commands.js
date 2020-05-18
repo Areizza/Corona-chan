@@ -2,7 +2,7 @@ var roles = require('./roles.js');
 var game = require('./game.js');
 var itemGroupManager = require('./ItemGroupManager/itemGroupManager');
 var Discord = require('discord.js');
-const minPlayers = 1;
+var config = require('./config')
 
 module.exports = {
     // Commands
@@ -18,8 +18,8 @@ module.exports = {
     start: function(bot, message) {
         // Starts the game by infecting one random person
         players = roles.playerCount(message.guild, roles.HEALTHY);
-        if (players.length < minPlayers) {
-            message.reply("Boo hoo, Corona-chan is waiting for at least " + minPlayers + " to start the game! There are currently only " + players.length + ".");
+        if (players.length < config.MIN_PLAYERS) {
+            message.reply("Boo hoo, Corona-chan is waiting for at least " + config.MIN_PLAYERS + " to start the game! There are currently only " + players.length + ".");
             return;
         }
         game.start(bot, message.guild, message.channel);
@@ -65,7 +65,7 @@ module.exports = {
             .setTitle('Help Menu')
             .addFields(
                 {name: 'join', value: "Participate in Corona-chan's game."},
-                {name: 'start', value: `Begin the game. Requires ${minPlayers} participants to begin.`},
+                {name: 'start', value: `Begin the game. Requires ${config.MIN_PLAYERS} participants to begin.`},
                 {name: 'end', value: "Force end Corona-chan's game."},
                 {name: 'items', value: "Check the items you currently are in possesion of. Game must be in progress to use this command."},
                 {name: 'help', value: "Show this menu"}
