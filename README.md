@@ -20,7 +20,7 @@ The game starts with one infected player randomly selected from the joined users
 - toilet paper
 - ventilators
 
-Once infected, the player's lifespan begins counting down towards a chance of either dying or recovering, as dependent on their current items at hand. If the player successfully recovers, they become immune to the virus. If the player dies, their items are not retrievable.
+Once infected, the player's lifespan begins counting down towards a chance of either dying or recovering, as dependent on their current items at hand. If the player successfully recovers, they become immune to the virus and Corona-chan will send them a sad message. If the player dies, their items are not retrievable.
 
 The game ends when the virus is eradicated when there are no more infected users (i.e. all infected have either died or recovered, and other users are healthy).
 
