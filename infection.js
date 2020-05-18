@@ -36,7 +36,7 @@ module.exports = {
                     console.log("New message: ", newMsg)
 
                     // Infect the message author
-                    if (Objct.keys(uniqueInfectedUsers).length) {
+                    if (Object.keys(uniqueInfectedUsers).length) {
                         if (Math.random() < calculateInfectionRate()) {
                             roles.setRole(newMsg.member, roles.INFECTED);
                             roles.removeRole(newMsg.member, roles.HEALTHY);

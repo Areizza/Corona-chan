@@ -64,7 +64,7 @@ class ItemGroupManager {
     // TODO
     calculateRecoveryRate(userID) {
         // return this.itemGroups[userID].calculateRecoveryRate
-        return 0.0;
+        return 0.5;
     }
 }
 
