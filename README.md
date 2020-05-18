@@ -5,7 +5,7 @@ Play a survival pandemic game on your Discord server with a cute bot! :heart:
 
 Corona-chan is a **Discord bot** that allows users who join to play a game simulating a server-wide pandemic. She comes equipped with a Yandere personality and a strong desire to share her "love" with all the players.
 
-The game starts with one infected player randomly selected from the joined users. The infection can spread to other players if they speak in the same channel within a certain time as the infected player within a certain time period, with heightened probability if they tag the infected or are tagged by the infected (i.e. simulating direct contact). Players also start the game with items in their personal inventory that may help or hinder them in staying safe from the virus.
+The game starts with one infected player randomly selected from the joined users. The infection can spread to other players if they speak in the same channel within a certain time period as the infected player, with heightened probability if they tag the infected or are tagged by the infected (i.e. simulating direct contact). Players also start the game with items in their personal inventory that may help or hinder them in staying safe from the virus.
 
 **:mask: Obtainable items include:**
 - regular masks
