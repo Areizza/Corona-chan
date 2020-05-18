@@ -40,12 +40,10 @@ class ItemGroupManager {
                 this.itemGroups[keys[index]].inventory[name] += 1;
             }  
         }
-
         console.log(this.itemGroups);
     }
 
     addUser(userID) {
-        console.log("ADDING NEW USER");
         if (!(userID in this.itemGroups)) {
             this.itemGroups[userID] = new itemGroup();
         } else {
@@ -56,6 +54,18 @@ class ItemGroupManager {
     // TODO distant future. Ignore for now
     // send(id1, id2)
     // trade(id1, id2)
+
+    // TODO
+    calculateInfectionRate(userID) {
+        // return this.itemGroups[userID].calculateInfectionRate
+        return 0.5;
+    }
+
+    // TODO
+    calculateRecoveryRate(userID) {
+        // return this.itemGroups[userID].calculateRecoveryRate
+        return 0.5;
+    }
 }
 
 module.exports = {

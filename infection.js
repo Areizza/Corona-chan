@@ -3,7 +3,6 @@ var game = require('./game')
 
 const MAXMESSAGES = 50;
 const TIMELIMIT = 15 * 60;
-const INFECTIONPERIOD = 1 * 1000;   // milliseconds
 
 module.exports = {
 
@@ -42,44 +41,12 @@ module.exports = {
                             roles.setRole(newMsg.member, roles.INFECTED);
                             roles.removeRole(newMsg.member, roles.HEALTHY);
                             newMsg.reply("Corona-chan has visited you, and you have become infected!");
-                            recoverOrDie(bot, newMsg.member);
+                            roles.recoverOrDie(newMsg.member);
+                            game.checkGameStatus(bot, member.guild);
                         }
                     }
                 })
                 .catch(console.error);
         }    
     }
-}
-
-// Moves an infected player to Recover or Die after the infection period has passed
-function recoverOrDie(bot, member) {
-    if (!member) {
-        console.warn("WARNING: member is not defined")
-        return
-    }
-
-    setTimeout(() => {
-        if (roles.memberHasRole(member, roles.INFECTED)) {
-            if (Math.random() < calculateRecoveryRate()) {
-                // Warning: possible race condition here?
-                roles.setRole(member, roles.RECOVERED);
-                member.send("Congratulations! You have recovered!");
-            } else {
-                roles.setRole(member, roles.DEAD);
-                member.send("Sorry, you have died!");
-            }
-            roles.removeRole(member, roles.INFECTED);
-            game.checkGameStatus(bot, member.guild);
-        }
-    }, INFECTIONPERIOD);
-}
-
-// TODO
-function calculateInfectionRate() {
-    return 0.1;
-}
-
-// TODO
-function calculateRecoveryRate() {
-    return 0.0;
 }
