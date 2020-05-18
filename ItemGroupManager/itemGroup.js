@@ -5,6 +5,7 @@ module.exports = class ItemGroup { //INVENTORY owned by any single user
         // key = item name
         // value = quantity of the item
         this.inventory = {}
+        this.itemList = {}  // TODO: improve
 
         //initialize all 0
         this.inventory[items.MASK.name] = 0;
@@ -18,6 +19,17 @@ module.exports = class ItemGroup { //INVENTORY owned by any single user
         this.inventory[items.ALCOHOL.name] = 0;
         this.inventory[items.TOILET.name] = 0;
         this.inventory[items.VENTILATOR.name] = 0;
+
+        for (let item in items) {
+            let i = items[item];
+            this.itemList[i.name] = {
+                "infection": i.infection_rate,
+                "spread": i.spread_rate,
+                "death": i.death_rate,
+                "max": i.maximum_quantity
+            }
+        }
+        console.log("ItemGroup item list: ", this.itemList)
     }
     
     addItem(itemName, quantity) {
@@ -30,9 +42,27 @@ module.exports = class ItemGroup { //INVENTORY owned by any single user
         this.inventory[itemName] -= quantity
     }
 
-    calculateInfectionRate() { //idk
+    calculateInfectionRate() {
+        return this.calculateRate("infection")
+    }
 
-    } // + other functions like this
+    calculateRecoveryRate() {
+        return this.calculateRate("death")
+    }
+
+    calculateRate(rateType) {
+        let keys = Object.keys(this.inventory);
+        let modifier = 0.00;
+        for (let i = 0; i < keys.length; i++) {
+            // Having multiple of the same item does not help
+            let itemName = keys[i]
+            if (this.inventory[itemName]) {
+                modifier += this.itemList[itemName][rateType]
+            }
+        }
+        console.debug("Rate type + modifier: ", rateType + " " + modifier)
+        return modifier;
+    }
 
     toString() {
         return items.MASK.name + ": " + this.inventory[items.MASK.name] + "\n" 
