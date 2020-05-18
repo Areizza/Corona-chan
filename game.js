@@ -12,7 +12,7 @@ module.exports = {
         pZero = guild.roles.cache.get(roles.getRoleID(guild, roles.HEALTHY)).members.random();
         roles.removeRole(pZero, roles.HEALTHY);
         roles.setRole(pZero, roles.INFECTED);
-        channel.send("Corona-chan is ready to play ♥ Someone has received my special gift");
+        channel.send("```Corona-chan is ready to play ♥ Someone has received my special gift```");
         console.debug(`${pZero.displayName} selected as Patient 0`)
         this.started = true;
         
@@ -39,26 +39,32 @@ module.exports = {
             numRecovered = roles.playerCount(guild, roles.RECOVERED).length;
             numDead = roles.playerCount(guild, roles.DEAD).length;
             totalPlayers = numHealthy + numInfected + numRecovered + numDead;
+
+            console.log("numHealthy " + numHealthy);
+            console.log("numInfected " + numInfected);
+            console.log("numRecovered " + numRecovered);
+            console.log("numDead " + numDead);
     
             if (numDead >= totalPlayers*config.DEATHTRIGGER) {
                 this.lose(bot, guild); 
-            } else if (roles.playerCount(guild, roles.INFECTED) == 0) {
-                this.win(bot, guild);
             }
+            // else if (roles.playerCount(guild, roles.INFECTED) == 0) {
+            //     this.win(bot, guild);
+            // }
         }
     },
 
     // Game is won
     win: function(bot, guild) {
         console.debug("Win triggered");
-        outputToGeneral(bot, guild, "B-b-baka, Corona-chan will be back! :'c");
+        outputToGeneral(bot, guild, "```B-b-baka, Corona-chan will be back! :'c```");
         this.end(bot, guild, getGeneral(guild))
     },
     
     // Game is lost
     lose: function(bot, guild) {
         console.debug("Lost triggered");
-        outputToGeneral(bot, guild, "Corona-chan loves everyone equally, let's play together forever and ever ♥")
+        outputToGeneral(bot, guild, "```Corona-chan loves everyone equally, let's play together forever and ever ♥```")
         this.end(bot, guild, getGeneral(guild))
     },
 
@@ -84,7 +90,10 @@ module.exports = {
     outputItems(bot, member, channel) {
         if (this.started) {
             items = itemGroupManager.igm.getItemsByID(member.id);
-
+            if (!items) {
+                console.debug("Warning: no items")
+                return
+            }
             var itemEmbed = new Discord.MessageEmbed()
                 .setTitle(member.username)
                 .setDescription(items.toString())

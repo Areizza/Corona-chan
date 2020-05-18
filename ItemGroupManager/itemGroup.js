@@ -29,7 +29,7 @@ module.exports = class ItemGroup { //INVENTORY owned by any single user
                 "max": i.maximum_quantity
             }
         }
-        console.log("ItemGroup item list: ", this.itemList)
+        // console.log("ItemGroup item list: ", this.itemList)
     }
     
     addItem(itemName, quantity) {
