@@ -4,7 +4,7 @@ var Discord = require('discord.js');
 
 module.exports = {
     started: false,
-    DEATHTRIGGER: 1.00,
+    DEATHTRIGGER: 0.5,
 
     // Starts the game by setting a random player as Infected
     start: function(bot, guild, channel) {
@@ -15,6 +15,10 @@ module.exports = {
         channel.send("Corona-chan is ready to play ♥ Someone has received my special gift");
         console.debug(`${pZero.displayName} selected as Patient 0`)
         this.started = true;
+        
+        // check game status runs before recover/die's timer finishes
+        roles.recoverOrDie(pZero);
+        this.checkGameStatus(bot, guild);
     },
 
     // Ends the game, outputting statistics and clearing roles

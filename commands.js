@@ -53,7 +53,7 @@ module.exports = {
     },
 
     clear: function(bot, message) {
-        this.end(bot, message);
+        game.end(bot, message.guild, message.channel);
     },
 
     items: function(bot, message) {
