@@ -37,7 +37,7 @@ bot.on('message', (message) => {
     
         if (!args.length) {
             logger.warn("No command passed to ${bot.username}")
-            message.reply("Did you need something?")
+            message.reply("Did you need something? (use 'help' for a list of commands)")
             return
         }
         const command = args.shift().toLowerCase();
@@ -57,7 +57,13 @@ bot.on('message', (message) => {
                 commands.debug(bot, message);
                 break;
             case commands.CLEAR:
-                commands.clear(bot,message);
+                commands.clear(bot, message);
+                break;
+            case commands.ITEMS:
+                commands.items(bot, message);
+                break;
+            case commands.HELP:
+                commands.help(bot, message);
                 break;
             
             // DEBUG

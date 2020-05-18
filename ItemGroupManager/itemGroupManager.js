@@ -53,6 +53,13 @@ class ItemGroupManager {
         }
     }
 
+    getItemsByID(userID) {
+        if (userID in this.itemGroups) {
+            return this.itemGroups[userID];
+        } else {
+            console.log(`WARNING: ${userID} is not a key in ItemGroupManager`)
+        }
+    }
     // TODO distant future. Ignore for now
     // send(id1, id2)
     // trade(id1, id2)
