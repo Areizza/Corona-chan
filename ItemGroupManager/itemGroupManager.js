@@ -1,6 +1,9 @@
 var itemGroup = require('./itemGroup.js')
 var items = require('./items.js')
 
+const BASE_INFECTION_RATE = 0.5
+const BASE_RECOVERY_RATE = 0.7
+
 // Singleton class managing all items in the game
 class ItemGroupManager {
     constructor() {
@@ -40,7 +43,6 @@ class ItemGroupManager {
                 this.itemGroups[keys[index]].inventory[name] += 1;
             }  
         }
-        console.log(this.itemGroups);
     }
 
     addUser(userID) {
@@ -57,14 +59,14 @@ class ItemGroupManager {
 
     // TODO
     calculateInfectionRate(userID) {
-        // return this.itemGroups[userID].calculateInfectionRate
-        return 0.5;
+        let modifier = this.itemGroups[userID].calculateInfectionRate();
+        return BASE_INFECTION_RATE * (1.00 + modifier);
     }
 
     // TODO
     calculateRecoveryRate(userID) {
-        // return this.itemGroups[userID].calculateRecoveryRate
-        return 0.5;
+        let modifier = this.itemGroups[userID].calculateRecoveryRate();
+        return BASE_RECOVERY_RATE * (1.00 + modifier);
     }
 }
 
