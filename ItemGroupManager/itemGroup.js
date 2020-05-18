@@ -33,4 +33,18 @@ module.exports = class ItemGroup { //INVENTORY owned by any single user
     calculateInfectionRate() { //idk
 
     } // + other functions like this
+
+    toString() {
+        return items.MASK.name + ": " + this.inventory[items.MASK.name] + "\n" 
+            + items.N95.name + ": " + this.inventory[items.N95.name] + "\n" 
+            + items.SANITIZE.name + ": " + this.inventory[items.SANITIZE.name] + "\n" 
+            + items.GLOVES.name + ": " + this.inventory[items.GLOVES.name] + "\n" 
+            + items.DISINFECT.name + ": " + this.inventory[items.DISINFECT.name] + "\n" 
+            + items.ESSENTIAL.name + ": " + this.inventory[items.ESSENTIAL.name] + "\n" 
+            + items.VITAMINS.name + ": " + this.inventory[items.VITAMINS.name] + "\n" 
+            + items.REMEDY.name + ": " + this.inventory[items.REMEDY.name] + "\n" 
+            + items.ALCOHOL.name + ": " + this.inventory[items.ALCOHOL.name] + "\n" 
+            + items.TOILET.name + ": " + this.inventory[items.TOILET.name] + "\n" 
+            + items.VENTILATOR.name + ": " + this.inventory[items.VENTILATOR.name];
+    }
 }

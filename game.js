@@ -77,8 +77,20 @@ module.exports = {
                 {name: 'Dead', value: checkUsers(deadUsers)},
                 {name: 'Recovered', value: checkUsers(recoveredUsers)}
             )
-            .setColor('#0099ff');
+            .setColor('#f5336e');
         channel.send(statistics);
+    },
+
+    outputItems(bot, member, channel) {
+        if (this.started) {
+            items = itemGroupManager.igm.getItemsByID(member.id);
+
+            var itemEmbed = new Discord.MessageEmbed()
+                .setTitle(member.username)
+                .setDescription(items.toString())
+                .setColor('#f5336e');
+            channel.send(itemEmbed);
+        }
     }
 }
 
